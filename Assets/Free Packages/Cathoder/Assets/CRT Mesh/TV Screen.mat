@@ -15,6 +15,7 @@ Material:
   - _COLORBLEED_ON
   - _DISPLAY_COLOR
   - _OVERLAY_ON
+  - _PIP_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -93,19 +94,19 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Height: 240
-    - _Intensity: 1.81
+    - _Intensity: 2.43
     - _Lcd: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Overlay: 1
-    - _OverlayAlpha: 0.7
+    - _OverlayAlpha: 1
     - _Overscan: 0
-    - _OverscanX: 0
+    - _OverscanX: 0.413
     - _OverscanY: 0.33
     - _Parallax: 0.02
-    - _PiP: 0
-    - _PiPAlpha: 0.11
+    - _PiP: 1
+    - _PiPAlpha: 0.027
     - _SmoothnessTextureChannel: 0
     - _SourceRes: 0
     - _SpecularHighlights: 1
