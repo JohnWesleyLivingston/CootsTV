@@ -6,24 +6,27 @@ public class GameMainMenu : MonoBehaviour
 {
     private GameRunner gameRunner;
     public Animator tvCamZoom;
-
+    private PauseGame pauseGame;
+    private QuitGame quitGame;
+     
     void OnEnable()
     {
         VoiceRecognitionManager.OnMeow += StartGame;
         VoiceRecognitionManager.OnHiss += QuitGame;
-
     }
     void OnDisable()
     {
         VoiceRecognitionManager.OnMeow -= StartGame;
         VoiceRecognitionManager.OnHiss -= QuitGame;
-
     }
 
 
     void Start()
     {
         gameRunner = FindObjectOfType<GameRunner>();
+        pauseGame = FindObjectOfType<PauseGame>();
+        quitGame = FindObjectOfType<QuitGame>();
+
     }
 
 
@@ -32,12 +35,15 @@ public class GameMainMenu : MonoBehaviour
         gameRunner.GameComplete();
         tvCamZoom.SetTrigger("ZoomIn");
         FindObjectOfType<AudioManager>().Play("StartGame");
+        pauseGame.gameStarted = true;
     }
 
     void QuitGame()
     {
-        FindObjectOfType<AudioManager>().Play("StartGame");
-        print("Quit Game");
+        tvCamZoom.SetTrigger("ZoomIn");
+        quitGame.Quit();
     }
+
+
 
 }

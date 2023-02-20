@@ -21,6 +21,8 @@ public class GameRunner : MonoBehaviour
 
     public MinigameManager minigameManager;
 
+
+
     void Start()
     {
         transitionScreen.SetActive(false);
@@ -35,7 +37,7 @@ public class GameRunner : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             GameComplete();
         }
@@ -69,7 +71,6 @@ public class GameRunner : MonoBehaviour
         {
             print("FINISHED");
             gameInstructions.text = "FINISHED";
-
         }
     }
 
