@@ -14,7 +14,6 @@ Material:
   m_ValidKeywords:
   - _COLORBLEED_ON
   - _DISPLAY_COLOR
-  - _OVERLAY_ON
   - _PIP_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -94,13 +93,13 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Height: 240
-    - _Intensity: 2.43
+    - _Intensity: 2.5
     - _Lcd: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Overlay: 1
-    - _OverlayAlpha: 1
+    - _Overlay: 0
+    - _OverlayAlpha: 0.197
     - _Overscan: 0
     - _OverscanX: 0.413
     - _OverscanY: 0.33

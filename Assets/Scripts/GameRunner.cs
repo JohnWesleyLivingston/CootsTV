@@ -76,23 +76,18 @@ public class GameRunner : MonoBehaviour
     private IEnumerator Countdown()
     {
         transitionScreen.SetActive(true);
+        RunNextGame();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.6f);
 
         {
-            instructionText.SetActive(true);
 
-            RunNextGame();
+            transitionScreen.SetActive(false);
+            instructionText.SetActive(true);
 
             yield return new WaitForSeconds(1.5f);
             {
-                transitionScreen.SetActive(false);
-
-                yield return new WaitForSeconds(1f);
-                {
-                    instructionText.SetActive(false);
-                    yield return null;
-                }
+                instructionText.SetActive(false);
 
             }
         }

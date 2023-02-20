@@ -9,8 +9,13 @@ public class VoiceRecognitionManager : MonoBehaviour
 {
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> actions = new Dictionary<string, Action>();
+    
     public delegate void MeowAction();
     public static event MeowAction OnMeow;
+
+    public delegate void HissAction();
+    public static event HissAction OnHiss;
+
 
     void Start()
     {
@@ -19,6 +24,12 @@ public class VoiceRecognitionManager : MonoBehaviour
         actions.Add("mow", Meow);
         actions.Add("ow", Meow);
         actions.Add("yow", Meow);
+
+        actions.Add("Hiss", Hiss);
+        actions.Add("His", Hiss);
+        actions.Add("Eee", Hiss);
+        actions.Add("He", Hiss);
+
 
         keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
@@ -35,5 +46,10 @@ public class VoiceRecognitionManager : MonoBehaviour
     void Meow()
     {
         OnMeow();
+    }
+
+    void Hiss()
+    {
+        OnHiss();
     }
 }
