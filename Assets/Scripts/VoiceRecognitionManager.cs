@@ -27,6 +27,8 @@ public class VoiceRecognitionManager : MonoBehaviour
         actions.Add("meow", Meow);
         actions.Add("mew", Meow);
         actions.Add("meo", Meow);
+        //actions.Add("now", Meow);
+        //actions.Add("meeow", Meow);
 
         /*
         actions.Add("mow", Meow);
@@ -38,13 +40,13 @@ public class VoiceRecognitionManager : MonoBehaviour
         actions.Add("ooo", Meow);
         actions.Add("myow", Meow);
         actions.Add("miow", Meow);
-        actions.Add("meeow", Meow);
         actions.Add("yowe", Meow);
         actions.Add("meyow", Meow);
         */
 
         actions.Add("Hiss", Hiss);
         actions.Add("His", Hiss);
+        actions.Add("Kiss", Hiss);
 
         /*
         actions.Add("Eee", Hiss);
@@ -57,13 +59,10 @@ public class VoiceRecognitionManager : MonoBehaviour
 
         actions.Add("Purr", Purr);
         actions.Add("Pur", Purr);
-        actions.Add("Prr", Purr);
+        //actions.Add("Prr", Purr);
+        //actions.Add("Pure", Purr);
+        actions.Add("Per", Purr);
 
-        /*
-        actions.Add("Pure", Purr);
-        actions.Add("Pour", Purr);
-        actions.Add("Pr", Purr);
-        */
 
         actions.Add("Pause", Pause);
         actions.Add("Paws", Pause);

@@ -21,17 +21,22 @@ public class GameRunner : MonoBehaviour
 
     public MinigameManager minigameManager;
 
-
+    private void Awake()
+    {
+        for (int i = 0; i < gameList.Length; i++)
+        {
+            gameList[i].SetActive(i == 0);
+        }
+    }
 
     void Start()
     {
         transitionScreen.SetActive(false);
         instructionText.SetActive(false);
 
-        for (int i = 0; i < gameList.Length; i++)
-        {
-            gameList[i].SetActive(i == 0);
-        }
+
+        cam.transform.position = camPos.transform.position;
+        cam.transform.rotation = camPos.transform.rotation;
     }
 
 

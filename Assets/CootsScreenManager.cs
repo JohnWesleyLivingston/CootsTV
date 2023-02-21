@@ -112,7 +112,7 @@ public class CootsScreenManager : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("TripleMeow");
 
             
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(6f);
             {
                 cootsAnim.SetBool("CootsOnScreen", false);
                 cootsInterupt.SetBool("RaiseCoots", false);

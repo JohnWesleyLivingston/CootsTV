@@ -67,6 +67,7 @@ public class GameReactManager : MonoBehaviour
             gameStep++;
 
             psychiatristAnim.SetTrigger("Talk");
+            FindObjectOfType<AudioManager>().Play("ReactLine3");
             subtitles.text = "Clearly say “Hiss” in response to the following image.";
             waitingForHiss = true;
 
@@ -97,6 +98,7 @@ public class GameReactManager : MonoBehaviour
             gameStep++;
 
             psychiatristAnim.SetTrigger("Talk");
+            FindObjectOfType<AudioManager>().Play("ReactLine4");
             subtitles.text = "Clearly say “Purr” in response to the following image.";
             waitingForPurr = true;
 
@@ -132,6 +134,7 @@ public class GameReactManager : MonoBehaviour
             gameStep++;
 
             psychiatristAnim.SetTrigger("Talk");
+            FindObjectOfType<AudioManager>().Play("ReactLine5");
             subtitles.text = "I think you’re getting the hang of it. Good luck!";
 
             tunaImage.SetActive(false);
@@ -164,15 +167,16 @@ public class GameReactManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         {
             FindObjectOfType<AudioManager>().Play("Footsteps");
-            //FindObjectOfType<AudioManager>().Play("Line1");
-            
-            //psychiatristAnim.SetTrigger("Enter");
+
+            FindObjectOfType<AudioManager>().Play("ReactLine1");
             subtitles.text = "Hello. Let’s learn the basics.";
 
-            yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(4f);
             {
                 //FindObjectOfType<AudioManager>().Play("PauseGame");
                 psychiatristAnim.SetTrigger("Talk");
+
+                FindObjectOfType<AudioManager>().Play("ReactLine2");
                 subtitles.text = "Clearly say “Meow” in response to the following image.";
                 waitingForMeow = true;
 
@@ -192,11 +196,11 @@ public class GameReactManager : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("Footsteps");
             psychiatristAnim.SetTrigger("Exit");
             music.Pause();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
             {
                 music.pitch = 1.2f;
                 music.Play();
-                subtitles.text = "";
+                subtitles.text = "KEEP GOING!";
 
                 waitingForHiss2 = true;
                 sardineImage.SetActive(false);
@@ -217,6 +221,7 @@ public class GameReactManager : MonoBehaviour
 
             yield return new WaitForSeconds(2f);
             {
+                FindObjectOfType<AudioManager>().Play("ReactLine6");
                 subtitles.text = "You did it! You're a genius!";
                 psychiatristAnim.SetTrigger("Talk");
 
