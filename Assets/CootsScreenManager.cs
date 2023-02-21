@@ -14,6 +14,7 @@ public class CootsScreenManager : MonoBehaviour
 
     public Animator cootsAnim;
     private bool gameStartedToggle = false;
+    private bool gameEndedToggle = false;
 
     private int cootsInteruptDelay;
     public Animator cootsInterupt;
@@ -25,12 +26,14 @@ public class CootsScreenManager : MonoBehaviour
     public float lowerDoFValue = 1.25f;
     public float raiseDoFValue = 2.85f;
 
+    public AudioSource meowSFX;
+
     void Start()
     {
         pauseMenu = FindObjectOfType<PauseGame>();
         cootsObject.transform.position = cootsOnTV.transform.position;
         raiseDoF = true;
-
+        meowSFX.Play();
     }
 
 
@@ -42,12 +45,24 @@ public class CootsScreenManager : MonoBehaviour
             {
                 StartCoroutine(CootsMoveDelay());
                 gameStartedToggle = true;
+                meowSFX.Stop();
+                gameEndedToggle = false;
+
             }
         }
         else
         {
             cootsObject.transform.position = cootsOnTV.transform.position;
-            cootsAnim.SetBool("CootsMeow", false);
+
+            if (!gameEndedToggle)
+            {
+                meowSFX.Play();
+                cootsAnim.SetBool("CootsMeow", false);
+
+                raiseDoF = true;
+                StopAllCoroutines();
+                gameEndedToggle = true;
+            }
         }
 
 
@@ -80,6 +95,8 @@ public class CootsScreenManager : MonoBehaviour
         if (pauseMenu.gameStarted)
         {
             cootsInteruptDelay = Random.Range(25, 120);
+            //cootsInteruptDelay = Random.Range(10, 15);
+
             StartCoroutine(CootsInteruptDelay());
         }
 
@@ -89,11 +106,15 @@ public class CootsScreenManager : MonoBehaviour
     {
         yield return new WaitForSeconds(cootsInteruptDelay);
         {
+            cootsAnim.SetBool("CootsOnScreen", true);
             cootsInterupt.SetBool("RaiseCoots", true);
             lowerDoF = true;
+            FindObjectOfType<AudioManager>().Play("TripleMeow");
 
+            
             yield return new WaitForSeconds(5f);
             {
+                cootsAnim.SetBool("CootsOnScreen", false);
                 cootsInterupt.SetBool("RaiseCoots", false);
                 CootsInterupt();
                 raiseDoF = true;
