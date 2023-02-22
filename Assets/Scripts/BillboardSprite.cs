@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class BillboardSprite : MonoBehaviour
 {
+    public Camera camToFollow;
     void Update()
     {
-        transform.LookAt(Camera.main.transform);
+        transform.LookAt(camToFollow.transform);
 
     }
 }
