@@ -83,6 +83,8 @@ public class GameReactManager : MonoBehaviour
 
             waitingForMeow2 = false;
 
+            sardineImage.SetActive(false);
+
             StartCoroutine(EndingSequence());
         }
     }

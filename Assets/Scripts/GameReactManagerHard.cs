@@ -150,7 +150,6 @@ public class GameReactManagerHard : MonoBehaviour
             sardineImageBlur.SetActive(false);
             bathImageBlur.SetActive(false);
             sleepImageBlur.SetActive(false);
-            imageBG.SetActive(false);
 
         }
     }
@@ -195,6 +194,7 @@ public class GameReactManagerHard : MonoBehaviour
             sleepImageBlur.SetActive(false);
 
             StartCoroutine(EndingSequence());
+            imageBG.SetActive(false);
 
         }
     }
