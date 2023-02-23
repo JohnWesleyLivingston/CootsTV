@@ -144,9 +144,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 610
-        y: 364
+        y: 389
         width: 156
-        height: 277
+        height: 252
       alignment: 9
       pivot: {x: 0.26515082, y: 0.7890171}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,6 +156,48 @@ TextureImporter:
       bones: []
       spriteID: 45ef3c70863991f4eb194181e9529853
       internalID: 1638438404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hat
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 679
+        width: 256
+        height: 396
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e34a0303800482a42b4b29a13cdd5048
+      internalID: 1745267031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Coots Wild west_1
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 0
+        width: 256
+        height: 389
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a2f8414c5db609418ee7e0462958005
+      internalID: 534294479
       vertices: []
       indices: 
       edges: []
@@ -173,6 +215,8 @@ TextureImporter:
     nameFileIdTable:
       Coots Wild west_0: 843674548
       Coots Wild west_arm: 1638438404
+      Coots Wild west_1: 534294479
+      Hat: 1745267031
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

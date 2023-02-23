@@ -24,6 +24,7 @@ public class WesternDrawGameManager : MonoBehaviour
     private bool cinemaOn = false;
 
     public GameObject cinemaBars;
+    public GameObject shootUI;
 
     public TextMeshProUGUI dialogue;
 
@@ -38,17 +39,15 @@ public class WesternDrawGameManager : MonoBehaviour
     public GameObject cootsShootAnim;
     public ParticleSystem introTumbleweed;
 
+
+
     void OnEnable()
     {
-        VoiceRecognitionManager.OnMeow += Meow;
         VoiceRecognitionManager.OnHiss += Hiss;
-        VoiceRecognitionManager.OnPurr += Purr;
     }
     void OnDisable()
     {
-        VoiceRecognitionManager.OnMeow -= Meow;
         VoiceRecognitionManager.OnHiss -= Hiss;
-        VoiceRecognitionManager.OnPurr -= Purr;
     }
 
 
@@ -89,10 +88,6 @@ public class WesternDrawGameManager : MonoBehaviour
         }
     }
 
-    void Meow()
-    {
-
-    }
     void Hiss()
     {
         if(waitForHiss)
@@ -101,10 +96,6 @@ public class WesternDrawGameManager : MonoBehaviour
             StartCoroutine(DrawWin());
 
         }
-    }
-    void Purr()
-    {
-
     }
 
     void GameComplete()
@@ -128,13 +119,13 @@ public class WesternDrawGameManager : MonoBehaviour
         mainCam.transform.position = camPos[7].transform.position;
         mainCam.transform.LookAt(focalPoints[2].transform);
 
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(4.5f);
         {
             mainCam.transform.position = camPos[9].transform.position;
             mainCam.transform.LookAt(focalPoints[3].transform);
             introTumbleweed.Play();
 
-            yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(4.5f);
             {
                 mainCam.transform.position = camPos[0].transform.position;
                 mainCam.transform.LookAt(focalPoints[0].transform);
@@ -144,7 +135,7 @@ public class WesternDrawGameManager : MonoBehaviour
 
                 dialogue.text = "Listen, stranger. Didn't you get the idea?";
 
-                yield return new WaitForSeconds(6f);
+                yield return new WaitForSeconds(3.5f);
                 {
                     mainCam.transform.position = camPos[1].transform.position;
                     mainCam.transform.LookAt(focalPoints[0].transform);
@@ -154,7 +145,7 @@ public class WesternDrawGameManager : MonoBehaviour
 
                     dialogue.text = "We don't like to see bad boys like you in town.";
 
-                    yield return new WaitForSeconds(6f);
+                    yield return new WaitForSeconds(3.5f);
                     {
                         mainCam.transform.position = camPos[2].transform.position;
                         mainCam.transform.LookAt(focalPoints[1].transform);
@@ -166,17 +157,17 @@ public class WesternDrawGameManager : MonoBehaviour
                             cootsAnim.SetTrigger("Talk");
                             dialogue.text = "hiss.";
                             
-                            yield return new WaitForSeconds(2.5f);
+                            yield return new WaitForSeconds(2f);
                             {
-                                dialogue.text = "";
+                                dialogue.text = "Get ready...";
                                 cinemaOn = true;
                                 StartCoroutine(StartCamSequencer());
-
                                 float timeToDraw = Random.Range(8, 20);
 
                                 yield return new WaitForSeconds(timeToDraw);
                                 {
                                     FindObjectOfType<AudioManager>().Play("Western1_Draw");
+                                    shootUI.SetActive(true);
 
                                     dialogue.text = "DRAW!";
                                     dialogue.fontSize = 30;
@@ -188,7 +179,7 @@ public class WesternDrawGameManager : MonoBehaviour
                                     drawZoom = true;
                                     banditAnim.SetTrigger("Shoot");
 
-                                    yield return new WaitForSeconds(8f);
+                                    yield return new WaitForSeconds(1f);
                                     {
                                         if (!drawWin)
                                         {
@@ -234,6 +225,7 @@ public class WesternDrawGameManager : MonoBehaviour
         waitForHiss = false;
         drawWin = true;
         print("WIN DUEL");
+        shootUI.SetActive(false);
 
         dialogue.text = "";
         dialogue.fontSize = 16;
@@ -246,7 +238,7 @@ public class WesternDrawGameManager : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().Play("PistolFire");
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.8f);
         {
             mainCam.transform.position = camPos[8].transform.position;
             mainCam.transform.LookAt(focalPoints[0].transform);
@@ -257,7 +249,7 @@ public class WesternDrawGameManager : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("Western1_Win");
             dialogue.text = "AAA!";
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         {
             mainCam.transform.position = camPos[0].transform.position;
             mainCam.transform.LookAt(banditDeadFocalPoint.transform);
@@ -265,7 +257,7 @@ public class WesternDrawGameManager : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("Western1_Win2");
             dialogue.text = "You win this time stranger...";
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4f);
         {
             mainCam.transform.position = camPos[8].transform.position;
             //mainCam.transform.LookAt(focalPoints[1].transform);
@@ -289,26 +281,67 @@ public class WesternDrawGameManager : MonoBehaviour
         dialogue.fontSize = 16;
         //Draw failed
         FindObjectOfType<AudioManager>().Play("PistolFire");
-
-        yield return new WaitForSeconds(3f);
-        {
-            mainCam.transform.position = camPos[8].transform.position;
-            mainCam.transform.LookAt(focalPoints[0].transform);
-            cootsShootAnim.SetActive(false);
-
-            banditAnim.SetTrigger("FuckingDie");
-
-            FindObjectOfType<AudioManager>().Play("Western1_Win");
-            dialogue.text = "AAA!";
-        }
+        cootsAnim.SetTrigger("Lose");
+        mainCam.transform.position = camPos[3].transform.position;
+        mainCam.transform.LookAt(focalPoints[1].transform);
+        shootUI.SetActive(false);
 
         yield return new WaitForSeconds(1f);
         {
-            cinemaOn = true;
-            StartCoroutine(StartCamSequencer());
+            mainCam.transform.position = camPos[1].transform.position;
+            mainCam.transform.LookAt(focalPoints[0].transform);
+
+            banditAnim.SetTrigger("Talk");
+
+            FindObjectOfType<AudioManager>().Play("Western1_Lose");
+            dialogue.text = "Hahahaha! The sun was in my eyes...";
         }
 
+        yield return new WaitForSeconds(4f);
+        {
+            mainCam.transform.position = camPos[0].transform.position;
+            mainCam.transform.LookAt(focalPoints[0].transform);
 
+            banditAnim.SetTrigger("Talk");
+            FindObjectOfType<AudioManager>().Play("Western1_Lose2");
+            dialogue.text = "Let's try that one more time.";
+        }
+
+        yield return new WaitForSeconds(4f);
+        {
+            cinemaOn = true;
+            StartCoroutine(StartCamSequencer());
+            float timeToDraw = Random.Range(4, 12);
+            dialogue.text = "Get ready...";
+
+            yield return new WaitForSeconds(timeToDraw);
+            {
+                FindObjectOfType<AudioManager>().Play("Western1_Draw");
+                shootUI.SetActive(true);
+
+                dialogue.text = "DRAW!";
+                dialogue.fontSize = 30;
+
+                cinemaOn = false;
+                waitForHiss = true;
+                mainCam.transform.position = camPos[2].transform.position;
+                //mainCam.transform.LookAt(focalPoints[0].transform);
+                drawZoom = true;
+                banditAnim.SetTrigger("Shoot");
+
+                yield return new WaitForSeconds(8f);
+                {
+                    if (!drawWin)
+                    {
+                        waitForHiss = false;
+
+                        StartCoroutine(DrawLose());
+                    }
+                }
+            }
+        }
+
+       
     }
 
 

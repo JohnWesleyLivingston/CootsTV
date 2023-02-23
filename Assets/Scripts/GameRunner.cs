@@ -91,7 +91,7 @@ public class GameRunner : MonoBehaviour
             transitionScreen.SetActive(false);
             instructionText.SetActive(true);
 
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
             {
                 instructionText.SetActive(false);
 
