@@ -64,6 +64,10 @@ public class WesternDrawGameManagerHard : MonoBehaviour
     public int timeToDraw;
     private int drawIteration;
 
+    public GameObject barMilk;
+    public GameObject armMilk;
+    public GameObject cootsArm;
+
     void OnEnable()
     {
         VoiceRecognitionManager.OnHiss += Hiss;
@@ -188,10 +192,10 @@ public class WesternDrawGameManagerHard : MonoBehaviour
         yield return new WaitForSeconds(2f);
         {
             FindObjectOfType<AudioManager>().Play("Western2_1");
-            dialogue.text = "Well well well, look what the cat dragged in.";     
+            dialogue.text = "Well well well, look what the cats dragged in.";     
         }
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
         {
             cowboyBoot.SetActive(false);
             bandit.SetActive(true);
@@ -348,7 +352,7 @@ public class WesternDrawGameManagerHard : MonoBehaviour
 
         banditAnim.SetTrigger("Talk");
         FindObjectOfType<AudioManager>().Play("Western2_Wait");
-        dialogue.text = "How clever of you…";
+        dialogue.text = "How clever…";
 
         yield return new WaitForSeconds(4f);
         {
@@ -490,13 +494,16 @@ public class WesternDrawGameManagerHard : MonoBehaviour
             mainCam.transform.position = banditDeadCam.transform.position;
             mainCam.transform.LookAt(banditDeadFocalPoint.transform);
 
-            FindObjectOfType<AudioManager>().Play("Western1_Win2");
-            dialogue.text = "You have bested me stranger...";
+            FindObjectOfType<AudioManager>().Play("Western2_Win");
+            dialogue.text = "You bested me stranger...";
             bandit.SetActive(false);
             graveStone.SetActive(true); 
         }
         yield return new WaitForSeconds(4f);
         {
+            barMilk.SetActive(false);
+            armMilk.SetActive(true);
+            cootsArm.SetActive(false);
             mainCam.transform.position = camPos[8].transform.position;
 
             winZoom = true;
@@ -535,7 +542,7 @@ public class WesternDrawGameManagerHard : MonoBehaviour
             banditAnim.SetTrigger("Talk");
 
             FindObjectOfType<AudioManager>().Play("Western2_Lose");
-            dialogue.text = "Hahahaha! Might've had a little too much to drink...";
+            dialogue.text = "Ha! Guess I had too much to drink...";
         }
 
         yield return new WaitForSeconds(4f);

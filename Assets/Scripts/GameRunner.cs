@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.Rendering.PostProcessing;
 
 public class GameRunner : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class GameRunner : MonoBehaviour
 
     public MinigameManager minigameManager;
 
+    public PostProcessVolume postProcessTVVolume;
+
     private void Awake()
     {
         for (int i = 0; i < gameList.Length; i++)
@@ -34,6 +37,7 @@ public class GameRunner : MonoBehaviour
         transitionScreen.SetActive(false);
         instructionText.SetActive(false);
 
+        ResetPostProcess();
 
         cam.transform.position = camPos.transform.position;
         cam.transform.rotation = camPos.transform.rotation;
@@ -48,16 +52,30 @@ public class GameRunner : MonoBehaviour
         }
     }
 
+    public void ResetPostProcess()
+    {
 
+        if (postProcessTVVolume)
+        {
+            ColorGrading cg;
+            if (postProcessTVVolume.sharedProfile.TryGetSettings<ColorGrading>(out cg))
+            {
+                cg.saturation.value = 20;
+                cg.contrast.value = 0;
+            }
+        }
+    }
 
     public void GameComplete()
     {
+        ResetPostProcess();
+
         StartCoroutine(Countdown());
     }
 
     private void RunNextGame()
     {
-        if (currentGame < gameList.Length -1)
+        if (currentGame < gameList.Length - 1)
         {
 
             gameList[currentGame].SetActive(false);
@@ -99,4 +117,7 @@ public class GameRunner : MonoBehaviour
         }
 
     }
+
+
+
 }
