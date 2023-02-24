@@ -15,14 +15,11 @@ public class SleepGameManager : MonoBehaviour
     public GameObject headSleep1;
     public GameObject headSleep2;
 
-    [Header("Coots Eyes")]
-    //public GameObject eyesOpen;
-   // public GameObject eyesClosed;
-
     [Header("Coots Limbs")]
     public GameObject armsRight;
     public GameObject armsLeft;
-    public GameObject armsDown;
+    public GameObject armsDownRight;
+    public GameObject armsDownLeft;
     public GameObject armsSleep;
 
 
@@ -32,7 +29,7 @@ public class SleepGameManager : MonoBehaviour
     public Transform camEnd;
     public GameObject cam;
     public float smooth = 0.1f;
-
+    private bool zoomCam;
 
     [Header("Other Settings")]
     //public Animator mouth;
@@ -41,10 +38,13 @@ public class SleepGameManager : MonoBehaviour
     //public GameObject sleepBubble;
 
     public AudioSource lullabySong;
+    public GameObject cootsSwear;
+    public GameObject cootsDream;
 
     public bool wakeUp;
     public GameObject carDriveBy;
     private bool songToggle;
+    private bool isRight;
 
     void OnEnable()
     {
@@ -69,13 +69,21 @@ public class SleepGameManager : MonoBehaviour
 
         armsRight.SetActive(false);
         armsLeft.SetActive(false);
-        armsDown.SetActive(true);
+        armsDownRight.SetActive(true);
+        armsDownLeft.SetActive(false);
+
         head.SetActive(true);
         armsSleep.SetActive(false);
 
         StartCoroutine(CarDriveDelay());
-
+        zoomCam = false;
+        songToggle = true;
+        cootsSwear.SetActive(false);
+        cootsDream.SetActive(false);
         //     mouth.SetBool("Awake", false);
+        isRight = true;
+
+        FindObjectOfType<AudioManager>().Play("SleepyCat");
 
     }
 
@@ -87,13 +95,16 @@ public class SleepGameManager : MonoBehaviour
             {
                 time = 0;
                 //Debug.Log("ZOOM OUT");
-                FindObjectOfType<AudioManager>().Play("AngryMeow");
-                cam.transform.position = Vector3.Lerp(cam.transform.position, camStart.transform.position, 20 * Time.deltaTime);
+                FindObjectOfType<AudioManager>().PitchedPlay("CatAngry");
+                FindObjectOfType<AudioManager>().Stop("SleepyCat");
+
+                cootsSwear.SetActive(true);
                 headAwake.SetActive(true);
                 headSleep1.SetActive(false);
-                //       mouth.SetBool("Awake", true);
-                wakeUp = false;
+                zoomCam = true;
                 songToggle = true;
+                wakeUp = false;
+
             }
             else
             {
@@ -117,6 +128,10 @@ public class SleepGameManager : MonoBehaviour
 
                 if(songToggle)
                 {
+                    FindObjectOfType<AudioManager>().Play("SleepyCat");
+
+                    cootsSwear.SetActive(false);
+                    zoomCam = false;
                     lullabySong.Play();
                     songToggle = false;
                 }
@@ -133,14 +148,24 @@ public class SleepGameManager : MonoBehaviour
                 headSleep2.SetActive(true);
                 armsRight.SetActive(false);
                 armsLeft.SetActive(false);
-                armsDown.SetActive(false);
+                armsDownRight.SetActive(false);
+                armsDownLeft.SetActive(false);
 
                 armsSleep.SetActive(true);
+                cootsDream.SetActive(true);
 
                 head.transform.localScale = new Vector3(1, 1, 1);
                 StartCoroutine(Countdown());
             }
         }
+
+
+        if(zoomCam)
+        {
+            cam.transform.position = Vector3.Lerp(cam.transform.position, camStart.transform.position, 20 * Time.deltaTime);
+        }
+
+
     }
 
     void Meow()
@@ -150,9 +175,11 @@ public class SleepGameManager : MonoBehaviour
             print("LEFT");
             armsRight.SetActive(false);
             armsLeft.SetActive(true);
-            armsDown.SetActive(false);
-            head.transform.localScale = new Vector3(-1, 1, 1);
+            armsDownRight.SetActive(false);
+            armsDownLeft.SetActive(false);
 
+            head.transform.localScale = new Vector3(-1, 1, 1);
+            isRight = false;
             WakeUp();
         }
     }
@@ -163,7 +190,17 @@ public class SleepGameManager : MonoBehaviour
             print("UP");
             armsRight.SetActive(false);
             armsLeft.SetActive(false);
-            armsDown.SetActive(true);
+            armsDownRight.SetActive(false);
+            armsDownLeft.SetActive(false);
+
+            if (isRight)
+            {
+                armsDownRight.SetActive(true);
+            }
+            else
+            {
+                armsDownLeft.SetActive(true);
+            }
 
             WakeUp();
         }
@@ -175,9 +212,10 @@ public class SleepGameManager : MonoBehaviour
             print("RIGHT");
             armsRight.SetActive(true);
             armsLeft.SetActive(false);
-            armsDown.SetActive(false);
+            armsDownRight.SetActive(false);
+            armsDownLeft.SetActive(false);
             head.transform.localScale = new Vector3(1, 1, 1);
-
+            isRight = true;
             WakeUp();
         }
     }
@@ -195,10 +233,17 @@ public class SleepGameManager : MonoBehaviour
     private IEnumerator Countdown()         //Win effect 
 
     {
+
+        yield return new WaitForSeconds(2f);
+        {
+            lullabySong.Stop();
+        }
+
         yield return new WaitForSeconds(3f);
         {
-            gameRunner.GameComplete();
+            FindObjectOfType<AudioManager>().Stop("SleepyCat");
 
+            gameRunner.GameComplete();
         }
     }
 

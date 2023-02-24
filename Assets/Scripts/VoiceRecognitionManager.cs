@@ -25,8 +25,10 @@ public class VoiceRecognitionManager : MonoBehaviour
     void Start()
     {
         actions.Add("meow", Meow);
-        actions.Add("mew", Meow);
-        actions.Add("meo", Meow);
+       // actions.Add("mew", Meow);
+      //  actions.Add("meo", Meow);
+       //actions.Add("me ow", Meow);
+
         //actions.Add("now", Meow);
         //actions.Add("meeow", Meow);
 
@@ -45,8 +47,8 @@ public class VoiceRecognitionManager : MonoBehaviour
         */
 
         actions.Add("Hiss", Hiss);
-        actions.Add("His", Hiss);
-        actions.Add("Kiss", Hiss);
+       // actions.Add("His", Hiss);
+      //  actions.Add("Kiss", Hiss);
 
         /*
         actions.Add("Eee", Hiss);
@@ -57,16 +59,16 @@ public class VoiceRecognitionManager : MonoBehaviour
         actions.Add("Iss", Hiss);
         */
 
-        actions.Add("Purr", Purr);
-        actions.Add("Pur", Purr);
+        //actions.Add("Purr", Purr);
+       // actions.Add("Pur", Purr);
         //actions.Add("Prr", Purr);
         //actions.Add("Pure", Purr);
         actions.Add("Per", Purr);
 
 
         actions.Add("Pause", Pause);
-        actions.Add("Paws", Pause);
-        actions.Add("Pos", Pause);
+       // actions.Add("Paws", Pause);
+       // actions.Add("Pos", Pause);
 
 
 
@@ -104,15 +106,15 @@ public class VoiceRecognitionManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             Meow();
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             Hiss();
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             Purr();
         }

@@ -400,7 +400,7 @@ TextureImporter:
         width: 65
         height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -408,6 +408,48 @@ TextureImporter:
       bones: []
       spriteID: eb892c93f8a1c5f4988196c23d4e357c
       internalID: 543309503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RightEye
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 455
+        width: 48
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0414c140526f2cf4e9bd1b6bfd5bf5cd
+      internalID: 2127637356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nightcap
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 190
+        width: 191
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc54be8abb7077b40bc0902a959340d5
+      internalID: 1112434833
       vertices: []
       indices: 
       edges: []
@@ -429,8 +471,10 @@ TextureImporter:
       C: -795081074
       S: -1381618888
       Left Arm: -640452826
+      Nightcap: 1112434833
       Coots Body: 517500571
       O: -2021321681
+      RightEye: 2127637356
       CootsBedroom_9: -632988152
       T: 734295063
       CootsBedroom_12: 401059803
