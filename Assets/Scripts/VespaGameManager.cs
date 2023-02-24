@@ -130,7 +130,8 @@ public class VespaGameManager : MonoBehaviour
 
     }
 
-    void Meow()
+
+    void Hiss()
     {
         if (!ending)
         {
@@ -143,9 +144,8 @@ public class VespaGameManager : MonoBehaviour
             wasRight = true;
             wasLeft = false;
         }
-
     }
-    void Hiss()
+    void Meow()
     {
         if (!ending)
         {
@@ -163,7 +163,10 @@ public class VespaGameManager : MonoBehaviour
                 print("Jump Input");
             }
         }
+
+
     }
+
     void Purr()
     {
         if (!ending)

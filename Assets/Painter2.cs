@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Painter : MonoBehaviour
+public class Painter2 : MonoBehaviour
 {
     [Header("Setup")]
     private GameRunner gameRunner;
@@ -15,9 +15,13 @@ public class Painter : MonoBehaviour
     public bool gameComplete;
 
     [Header("Transforms")]
-    public Transform[] horizontalPortrait;
+   // public Transform[] horizontalPortrait;
 
-    public Transform[] verticalPortrait;
+   // public Transform[] verticalPortrait;
+
+    public Transform[] portraitTransforms;
+    public int currentPaintMoveTo;
+
 
     public Transform transHolder;
     public GameObject vertTrans;
@@ -27,19 +31,15 @@ public class Painter : MonoBehaviour
     [Header("Hand")]
     public GameObject playerHand;
     public bool slideHorizontal = true;
-    private bool goRight = true;
-    private bool goDown = true;
     public float handSpeed = 1;
     public GameObject handVisual;
     public Animator handSlideIn;
 
     [Header("Art")]
     public bool waitingForPur1 = true;
-    public bool waitingForPur2 = false;
     public GameObject[] objectToPaint;
     public GameObject artCanvas;
     public int paintCounter;
-    public int paintCounterGameEndLock;
 
     private bool resetToggle = true;
     private bool shiftCam;
@@ -53,6 +53,8 @@ public class Painter : MonoBehaviour
     public SpriteRenderer paintPreview;
 
     public Animator bobRossAnim;
+
+    private bool paintToggle;
 
     void OnEnable()
     {
@@ -74,7 +76,7 @@ public class Painter : MonoBehaviour
         paintCanvas.SetActive(true);
     }
 
- 
+
 
     void Update()
     {
@@ -82,60 +84,35 @@ public class Painter : MonoBehaviour
         {
             gameUI.SetActive(true);
 
-            if (slideHorizontal)
+
+            if (!paintToggle)
             {
-                vertTrans.transform.SetParent(playerHand.transform);
-
-                if (playerHand.transform.position == horizontalPortrait[1].transform.position)
+                if (paintCounter >= 2)
                 {
-                    goRight = false;
-                }
-                if (playerHand.transform.position == horizontalPortrait[0].transform.position)
-                {
-                    goRight = true;
-                }
-
-                if (goRight)
-                {
-                    playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, horizontalPortrait[1].transform.position, handSpeed * Time.deltaTime);
+                    currentPaintMoveTo = Random.Range(0, portraitTransforms.Length);
+                    paintToggle = true;
                 }
                 else
                 {
-                    playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, horizontalPortrait[0].transform.position, handSpeed * Time.deltaTime);
+                    currentPaintMoveTo = Random.Range(0, 5);
+                    paintToggle = true;
                 }
             }
-            else
+            playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, portraitTransforms[currentPaintMoveTo].transform.position, handSpeed * Time.deltaTime);
+
+            if (playerHand.transform.position == portraitTransforms[currentPaintMoveTo].transform.position)
             {
-                vertTrans.transform.SetParent(transHolder);
-
-
-                if (playerHand.transform.position == verticalPortrait[1].transform.position) //Hit Bottom
-                {
-                    goDown = false; //Go Up
-                }
-                if (playerHand.transform.position == verticalPortrait[0].transform.position) //Hit Top
-                {
-                    goDown = true; //Go Down
-                }
-
-                if (goDown)
-                {
-                    playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, verticalPortrait[1].transform.position, handSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, verticalPortrait[0].transform.position, handSpeed * Time.deltaTime);
-                }
+                paintToggle = false;
             }
         }
 
         else
         {
-            playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, horizontalPortrait[0].transform.position, handSpeed * 2 * Time.deltaTime);
-            
+            playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, portraitTransforms[5].transform.position, handSpeed * 2 * Time.deltaTime);
+
             gameUI.SetActive(false);
 
-            if (playerHand.transform.position == horizontalPortrait[0].transform.position && !resetToggle && !gameComplete)
+            if (playerHand.transform.position == portraitTransforms[5].transform.position && !resetToggle && !gameComplete)
             {
                 StartCoroutine(PlacementCountdown());
                 resetToggle = true;
@@ -162,24 +139,17 @@ public class Painter : MonoBehaviour
 
     void Purr()
     {
-        if(startPainting)
+        if (startPainting)
         {
-            if (waitingForPur2)
+            if (waitingForPur1)
             {
-
+ 
                 objectToPaint[paintCounter].transform.SetParent(artCanvas.transform);
                 objectToPaint[paintCounter].SetActive(true);
                 handSlideIn.SetTrigger("Paint");
                 FindObjectOfType<AudioManager>().Play("Paintbrush");
 
                 ResetPainter();
-
-            }
-
-            if (waitingForPur1)
-            {
-                waitingForPur2 = true;
-                slideHorizontal = false;
             }
 
 
@@ -190,44 +160,52 @@ public class Painter : MonoBehaviour
     {
         paintCounter++;
 
-        if (paintCounter == 3)
+        if (paintCounter == 5)
         {
             StartCoroutine(EndingSequencer());
             startPainting = false;
             waitingForPur1 = false;
-            waitingForPur2 = false;
             gameComplete = true;
         }
         else
         {
             startPainting = false;
             slideHorizontal = true;
-            waitingForPur1 = false;
-            waitingForPur2 = false;
-            goRight = true;
-            goDown = true;
+
             paintPreview.gameObject.SetActive(false);
         }
 
-        if(paintCounter == 1)
+        if (paintCounter == 1)
         {
-            subtitles.text = "Look at those happy little strokes.";
-            FindObjectOfType<AudioManager>().Play("BobRoss1_2");
+            subtitles.text = "We're starting with a happy little tree, standing tall and proud.";
+            FindObjectOfType<AudioManager>().Play("BobRoss2_2");
             StartCoroutine(DialogueDisable());
         }
         if (paintCounter == 2)
         {
-            subtitles.text = "Now, let's give our cat some tender little eyes.";
-            FindObjectOfType<AudioManager>().Play("BobRoss1_3");
+            subtitles.text = "Painting a self portrait is like capturing the essence of who you are.";
+            FindObjectOfType<AudioManager>().Play("BobRoss2_3");
             StartCoroutine(DialogueDisable());
 
         }
         if (paintCounter == 3)
         {
-            subtitles.text = "We're just bringing this kitty to life.";
-            FindObjectOfType<AudioManager>().Play("BobRoss1_4");
+            subtitles.text = "They say the eyes are the window to the soul, and I think that's true.";
+            FindObjectOfType<AudioManager>().Play("BobRoss2_4");
+            StartCoroutine(DialogueDisable());
+        }
+        if (paintCounter == 4)
+        {
+            subtitles.text = "Let’s add some definition to that nose.";
+            FindObjectOfType<AudioManager>().Play("BobRoss2_5");
             StartCoroutine(DialogueDisable());
 
+        }
+        if (paintCounter == 5)
+        {
+            subtitles.text = "Now let’s bring this delightful little forest scene all together.";
+            FindObjectOfType<AudioManager>().Play("BobRoss2_6");
+            StartCoroutine(DialogueDisable());
         }
     }
 
@@ -255,16 +233,15 @@ public class Painter : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         {
-            bobRossAnim.SetTrigger("Talk");
-            subtitles.text = "Hello there friends. Today we're going to paint a happy little cat.";
-            FindObjectOfType<AudioManager>().Play("BobRoss1_1");
+            bobRossAnim.SetTrigger("FaceRevealTalk");
+            subtitles.text = "Welcome back friends. Today we're going to paint a lovely forest scene.";
+            FindObjectOfType<AudioManager>().Play("BobRoss2_1");
         }
 
         yield return new WaitForSeconds(6f);
         {
             shiftCam = true;
             subtitles.text = "";
-
         }
 
         yield return new WaitForSeconds(1f);
@@ -293,9 +270,9 @@ public class Painter : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
         {
-            bobRossAnim.SetTrigger("Talk");
-            subtitles.text = "And there we have it, a happy little kitty.";
-            FindObjectOfType<AudioManager>().Play("BobRoss1_5");
+            bobRossAnim.SetTrigger("FaceRevealTalk");
+            subtitles.text = "And there you have it, folks. A lovely forest with yours truly. It's not perfect, but it's me.";
+            FindObjectOfType<AudioManager>().Play("BobRoss2_7");
         }
         yield return new WaitForSeconds(1f);
         {
@@ -303,15 +280,15 @@ public class Painter : MonoBehaviour
             shiftCamOut = true;
             handVisual.SetActive(false);
         }
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
         {
             subtitles.text = "";
         }
         yield return new WaitForSeconds(1f);
         {
-            bobRossAnim.SetTrigger("Talk");
-            subtitles.text = "I hope you enjoyed painting with us today.";
-            FindObjectOfType<AudioManager>().Play("BobRoss1_6");
+            bobRossAnim.SetTrigger("FaceRevealTalk");
+            subtitles.text = "And as always, have fun and let your imagination run wild. Happy painting, my friends.";
+            FindObjectOfType<AudioManager>().Play("BobRoss2_8");
         }
         yield return new WaitForSeconds(2f);
         {
@@ -341,12 +318,5 @@ public class Painter : MonoBehaviour
     }
 
 }
-
-
-
-
-
-
-
 
 

@@ -674,7 +674,7 @@ PlayerSettings:
   metroSplashScreenUseBackgroundColor: 0
   platformCapabilities:
     WindowsStoreApps:
-      WebCam: True
+      WebCam: False
       Microphone: True
   metroTargetDeviceFamilies: {}
   metroFTAName: 
