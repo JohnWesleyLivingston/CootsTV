@@ -26,8 +26,9 @@ public class VoiceRecognitionManager : MonoBehaviour
     {
         actions.Add("meow", Meow);
        // actions.Add("mew", Meow);
-      //  actions.Add("meo", Meow);
-       //actions.Add("me ow", Meow);
+        actions.Add("meo", Meow);
+        actions.Add("mehow", Meow);
+        actions.Add("meyow", Meow);
 
         //actions.Add("now", Meow);
         //actions.Add("meeow", Meow);
@@ -72,7 +73,7 @@ public class VoiceRecognitionManager : MonoBehaviour
 
 
 
-        keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
+        keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray(), ConfidenceLevel.Low);
         keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
         keywordRecognizer.Start();
     }

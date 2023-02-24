@@ -32,12 +32,11 @@ public class SleepGameManager2 : MonoBehaviour
     public float smooth = 0.1f;
 
     [Header("Other Settings")]
-    //public Animator mouth;
-
     private bool gameComplete;
 
     public AudioSource lullabySong;
     public GameObject cootsDream;
+    public GameObject cootsSwear;
 
     public bool wakeUp;
     public GameObject carDriveBy;
@@ -46,6 +45,10 @@ public class SleepGameManager2 : MonoBehaviour
     public Transform[] camMarkers;
     public Sprite[] dreams;
     public SpriteRenderer currentDream;
+    public Animator cootsSleep;
+    public Animator alarmKick;
+    private float camSpeed = 5; 
+
 
     void OnEnable()
     {
@@ -93,29 +96,6 @@ public class SleepGameManager2 : MonoBehaviour
     {
         if (!gameComplete)
         {
-            if (wakeUp)
-            {
-
-            }
-
-            /*
-            if (time > 100 && time < timeMax)
-            {
-                //Debug.Log("ZOOM IN");
-                headAwake.SetActive(false);
-                headSleep1.SetActive(true);
-                cam.transform.position = Vector3.Lerp(cam.transform.position, camEnd.transform.position, smooth * Time.deltaTime);
-
-                if (songToggle)
-                {
-                    cootsSwear.SetActive(false);
-                    zoomCam = false;
-                    lullabySong.Play();
-                    songToggle = false;
-                }
-            }
-            */
-
             if (soundCounter >= 4) //WIN
             {
                 FindObjectOfType<AudioManager>().Play("Purr");
@@ -129,9 +109,11 @@ public class SleepGameManager2 : MonoBehaviour
                 armsLeft.SetActive(false);
                 armsDownRight.SetActive(true);
                 armsDownLeft.SetActive(false);
+                armsSleep.SetActive(false);
 
-                armsSleep.SetActive(true);
-                cootsDream.SetActive(true);
+
+                cootsDream.SetActive(false);
+                cootsSwear.SetActive(true);
 
                 head.transform.localScale = new Vector3(1, 1, 1);
                 StartCoroutine(Countdown());
@@ -139,7 +121,7 @@ public class SleepGameManager2 : MonoBehaviour
         }
 
 
-        cam.transform.position = Vector3.Lerp(cam.transform.position, camMarkers[soundCounter].transform.position, 5 * Time.deltaTime);
+        cam.transform.position = Vector3.Lerp(cam.transform.position, camMarkers[soundCounter].transform.position, camSpeed * Time.deltaTime);
 
     }
 
@@ -200,7 +182,10 @@ public class SleepGameManager2 : MonoBehaviour
     void WakeUp()
     {
         soundCounter++;
-        StartCoroutine(StopYelling());
+        if (soundCounter < 4) 
+        {
+            StartCoroutine(StopYelling());
+        }
     }
 
 
@@ -208,17 +193,42 @@ public class SleepGameManager2 : MonoBehaviour
     private IEnumerator Countdown()         //Win effect 
 
     {
-        print("FInished!");
+        print("Finished!");
 
-        yield return new WaitForSeconds(3f);
+        cootsSleep.SetTrigger("Awake");
+        FindObjectOfType<AudioManager>().Stop("SleepyCat");
+        FindObjectOfType<AudioManager>().Play("Hiss");
+
+        yield return new WaitForSeconds(1f);
         {
-            FindObjectOfType<AudioManager>().Stop("AlarmClock");
-            FindObjectOfType<AudioManager>().Stop("SleepyCat");
-
-            //Play animation
+            cootsSwear.SetActive(false);
+            cootsSleep.SetTrigger("Run");
         }
+        yield return new WaitForSeconds(1.55f);
+        {
+            alarmKick.SetTrigger("AlarmKick");
+            FindObjectOfType<AudioManager>().Stop("AlarmClock");
+        }
+        yield return new WaitForSeconds(4f);
+        {
+            headSleep2.SetActive(true);
+            armsSleep.SetActive(true);
+            armsDownRight.SetActive(false);
+            headAwake.SetActive(false);
+            soundCounter = 0;
+            lullabySong.Play();
+            cootsDream.SetActive(true);
+            currentDream.sprite = dreams[5];
+            cootsSleep.SetTrigger("Sleep");
+            FindObjectOfType<AudioManager>().Play("Purr");
 
-        yield return new WaitForSeconds(3f);
+        }
+        yield return new WaitForSeconds(1f);
+        {
+            camSpeed = 0.5f;
+            soundCounter = 5;
+        }
+        yield return new WaitForSeconds(4f);
         {
             gameRunner.GameComplete();
         }
@@ -250,6 +260,7 @@ public class SleepGameManager2 : MonoBehaviour
 
     {
 
+        cootsSleep.SetTrigger("Awake");
 
         FindObjectOfType<AudioManager>().PitchedPlay("CatAngry");
 
@@ -268,6 +279,7 @@ public class SleepGameManager2 : MonoBehaviour
             rightEye.SetActive(false);
             cootsDream.SetActive(true);
             FindObjectOfType<AudioManager>().Play("SleepyCat");
+            cootsSleep.SetTrigger("Sleep");
 
             if (!isRight)
             {

@@ -102,12 +102,30 @@ public class GameRunner : MonoBehaviour
         transitionScreen.SetActive(true);
         RunNextGame();
 
+        if (postProcessTVVolume)
+        {
+            AmbientOcclusion ao;
+            if (postProcessTVVolume.sharedProfile.TryGetSettings<AmbientOcclusion>(out ao))
+            {
+                ao.intensity.value = 0;
+            }
+        }
+
         yield return new WaitForSeconds(0.6f);
 
         {
 
             transitionScreen.SetActive(false);
             instructionText.SetActive(true);
+
+            if (postProcessTVVolume)
+            {
+                AmbientOcclusion ao;
+                if (postProcessTVVolume.sharedProfile.TryGetSettings<AmbientOcclusion>(out ao))
+                {
+                    ao.intensity.value = 1;
+                }
+            }
 
             yield return new WaitForSeconds(2f);
             {

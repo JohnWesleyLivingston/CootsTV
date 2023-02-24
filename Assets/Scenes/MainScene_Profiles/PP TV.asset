@@ -1424,13 +1424,13 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 0.45
+    value: 0
   color:
     overrideState: 1
     value: {r: 0, g: 0.21854223, b: 0.3301887, a: 1}
   ambientOnly:
-    overrideState: 1
-    value: 0
+    overrideState: 0
+    value: 1
   noiseFilterTolerance:
     overrideState: 0
     value: 0
@@ -1448,10 +1448,10 @@ MonoBehaviour:
     value: 0
   radius:
     overrideState: 1
-    value: 5
+    value: 3
   quality:
     overrideState: 1
-    value: 0
+    value: 1
 --- !u!114 &6929442205328597951
 MonoBehaviour:
   m_ObjectHideFlags: 3

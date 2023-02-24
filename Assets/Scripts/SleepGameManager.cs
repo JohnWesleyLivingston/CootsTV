@@ -45,7 +45,7 @@ public class SleepGameManager : MonoBehaviour
     public GameObject carDriveBy;
     private bool songToggle;
     private bool isRight;
-
+    public Animator cootsSleep;
     void OnEnable()
     {
         VoiceRecognitionManager.OnMeow += Meow;
@@ -84,10 +84,17 @@ public class SleepGameManager : MonoBehaviour
         isRight = true;
 
         FindObjectOfType<AudioManager>().Play("SleepyCat");
-
     }
 
-    void Update()
+    private void Update()
+    {
+        if (zoomCam)
+        {
+            cam.transform.position = Vector3.Lerp(cam.transform.position, camStart.transform.position, 20 * Time.deltaTime);
+        }
+    }
+
+    void FixedUpdate()
     {
         if (!gameComplete)
         {
@@ -97,6 +104,7 @@ public class SleepGameManager : MonoBehaviour
                 //Debug.Log("ZOOM OUT");
                 FindObjectOfType<AudioManager>().PitchedPlay("CatAngry");
                 FindObjectOfType<AudioManager>().Stop("SleepyCat");
+                cootsSleep.SetTrigger("Awake");
 
                 cootsSwear.SetActive(true);
                 headAwake.SetActive(true);
@@ -129,6 +137,7 @@ public class SleepGameManager : MonoBehaviour
                 if(songToggle)
                 {
                     FindObjectOfType<AudioManager>().Play("SleepyCat");
+                    cootsSleep.SetTrigger("Sleep");
 
                     cootsSwear.SetActive(false);
                     zoomCam = false;
@@ -158,14 +167,6 @@ public class SleepGameManager : MonoBehaviour
                 StartCoroutine(Countdown());
             }
         }
-
-
-        if(zoomCam)
-        {
-            cam.transform.position = Vector3.Lerp(cam.transform.position, camStart.transform.position, 20 * Time.deltaTime);
-        }
-
-
     }
 
     void Meow()
@@ -234,10 +235,7 @@ public class SleepGameManager : MonoBehaviour
 
     {
 
-        yield return new WaitForSeconds(2f);
-        {
-            lullabySong.Stop();
-        }
+        lullabySong.Stop();
 
         yield return new WaitForSeconds(3f);
         {
