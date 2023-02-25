@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class GuitarNote : MonoBehaviour
 {
-    public string musicalNote;
-
+    public float moveSpeed = 4;
     void Start()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        gameObject.transform.position += Vector3.back * 4 * Time.deltaTime;
+        gameObject.transform.position += Vector3.back * moveSpeed * Time.deltaTime;
     }
 
     public void KillMe()

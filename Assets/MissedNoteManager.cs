@@ -5,6 +5,12 @@ using UnityEngine;
 public class MissedNoteManager : MonoBehaviour
 {
     public GuitarHeroManager guitarHeroManager;
+    private GuitarNeckSpawner guitarNeckSpawner;
+
+    private void Start()
+    {
+        guitarNeckSpawner = FindObjectOfType<GuitarNeckSpawner>();
+    }
 
 
     void OnTriggerEnter(Collider target)
@@ -13,6 +19,12 @@ public class MissedNoteManager : MonoBehaviour
         {
             guitarHeroManager.MissNote();
             target.GetComponent<GuitarNote>().KillMe();
+        }
+
+        if (target.tag == "GuitarNeck")
+        {
+            guitarNeckSpawner.SpawnTile();
+            Destroy(target.gameObject, 2);
         }
     }
 }

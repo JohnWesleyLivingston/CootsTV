@@ -15,9 +15,9 @@ public class GuitarHeroManager : MonoBehaviour
     public Transform midPos;
     public Transform rightPos;
 
-    private bool isLeft;
-    private bool isMiddle;
-    private bool isRight;
+    public bool isLeft;
+    public bool isMiddle = true;
+    public bool isRight;
     private bool isMoving;
     private bool wasRight;
     private bool wasLeft;
@@ -29,12 +29,23 @@ public class GuitarHeroManager : MonoBehaviour
     private bool ending;
     private bool endingZoom;
 
+    [Header("Music")]
+    public AudioSource backTrack;
+    public AudioSource guitarTrack;
+    public float guitarVolume = 1;
+
+    [Header("Note Anims")]
+    public Animator redAnimLeft;
+    public Animator greenAnimMid;
+    public Animator blueAnimRight;
+
     [Header("Other")]
     public GameObject guitarCanvas;
     private GameRunner gameRunner;
-
-
-
+    public int missedNotes;
+    public Animator cootsSlash1;
+    public Animator cootsSlash2;
+    public GameObject endingFire;
     void OnEnable()
     {
         VoiceRecognitionManager.OnMeow += Meow;
@@ -51,8 +62,11 @@ public class GuitarHeroManager : MonoBehaviour
 
     void Start()
     {
-        //   StartCoroutine(StartSequencer());
+        StartCoroutine(StartSequencer());
+
         gameRunner = FindObjectOfType<GameRunner>();
+
+
     }
 
 
@@ -168,16 +182,6 @@ public class GuitarHeroManager : MonoBehaviour
 
     }
 
-
-
-    private IEnumerator StartSequencer()
-    {
-
-        yield return new WaitForSeconds(2.5f);
-        {
-        }
-    }
-
     void OnTriggerEnter(Collider target)
     {
         if (target.tag == "VespaLeft")
@@ -199,8 +203,8 @@ public class GuitarHeroManager : MonoBehaviour
 
         if (target.tag == "Blocker")
         {
-            string soundToPlay = target.GetComponent<GuitarNote>().musicalNote;
-            FindObjectOfType<AudioManager>().Play(soundToPlay);
+           // string soundToPlay = target.GetComponent<GuitarNote>().musicalNote;
+           // FindObjectOfType<AudioManager>().Play(soundToPlay);
             target.GetComponent<GuitarNote>().KillMeImmediate();
             HitNote();
         }
@@ -208,7 +212,6 @@ public class GuitarHeroManager : MonoBehaviour
         if (target.tag == "Ending")
         {
             StopAllCoroutines();
-
             StartCoroutine(EndingSequencer());
             guitarCanvas.SetActive(false);
         }
@@ -218,8 +221,16 @@ public class GuitarHeroManager : MonoBehaviour
     void HitNote()
     {
         guitarPickAnimStrum.SetTrigger("HitNote");
-        FindObjectOfType<AudioManager>().Play("HitNote");
+        FindObjectOfType<AudioManager>().PitchedPlay("HitNote");
         fireEffect.Play();
+       // StopCoroutines(PlayGuitar);
+        StartCoroutine(PlayGuitar());
+        missedNotes = 0;
+
+        if (isLeft) {redAnimLeft.SetTrigger("NoteHit");}
+        if (isMiddle) { greenAnimMid.SetTrigger("NoteHit"); }
+        if (isRight) { blueAnimRight.SetTrigger("NoteHit"); }
+
     }
 
     public void MissNote()
@@ -227,38 +238,60 @@ public class GuitarHeroManager : MonoBehaviour
         guitarPickAnimStrum.SetTrigger("MissNote");
 
         int r = Random.Range(0, 2);
-        FindObjectOfType<AudioManager>().Play("MissNote_" + r);
+        FindObjectOfType<AudioManager>().PitchedPlay("MissNote_" + r);
 
+        missedNotes++;
 
-
-
+        if (missedNotes >= 2)
+        {
+            FindObjectOfType<AudioManager>().PitchedPlay("Boo");
+        }
     }
+
+
+    private IEnumerator PlayGuitar()
+    {
+        guitarTrack.volume = guitarVolume;
+        yield return new WaitForSeconds(2f);
+        {
+
+            guitarTrack.volume = 0;
+
+
+        }
+    }
+
+
+    private IEnumerator StartSequencer()
+    {
+        yield return new WaitForSeconds(3.5f);
+        {
+            backTrack.Play();
+            guitarTrack.Play();
+            guitarTrack.volume = 0;
+            guitarCanvas.SetActive(true);
+            cootsSlash1.SetBool("PlayMusic", true);
+            cootsSlash2.SetBool("PlayMusic", true);
+            print("Music ON");
+        }
+    }
+
+
+
+
 
 
     private IEnumerator EndingSequencer()
     {
+        endingFire.SetActive(true);
+        cootsSlash1.SetTrigger("Ending");
+        cootsSlash2.SetTrigger("Ending");
+        backTrack.Stop();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(6f);
         {
 
-            ending = true;
-
-            yield return new WaitForSeconds(5f);
-            {
-                endingZoom = true;
-
-                {
-                    yield return new WaitForSeconds(1.5f);
-                    {
-
-                        yield return new WaitForSeconds(4.5f);
-                        {
-
-                            gameRunner.GameComplete();
-                        }
-                    }
-                }
-            }
+            gameRunner.GameComplete();
         }
     }
 
