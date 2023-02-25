@@ -210,7 +210,7 @@ public class FlappyCootsManager : MonoBehaviour
         gameEnd = true;
         endingZoom = true;
         flappyCanvas.SetActive(false);
-
+        playerScore = 0;
         if (!isVertcial)
         {
 

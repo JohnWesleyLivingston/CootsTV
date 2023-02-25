@@ -27,6 +27,7 @@ public class CootsScreenManager : MonoBehaviour
     public float raiseDoFValue = 2.85f;
 
     public AudioSource meowSFX;
+    public int interuptCounter;
 
     void Start()
     {
@@ -94,11 +95,26 @@ public class CootsScreenManager : MonoBehaviour
     {
         if (pauseMenu.gameStarted)
         {
-            cootsInteruptDelay = Random.Range(25, 120);
-            //cootsInteruptDelay = Random.Range(10, 15);
+            if (interuptCounter == 0)
+            {
 
-            StartCoroutine(CootsInteruptDelay());
+                cootsInteruptDelay = Random.Range(25, 50);
+                //cootsInteruptDelay = Random.Range(10, 15);
+
+                StartCoroutine(CootsInteruptDelay());
+            }
+            else
+            {
+
+                cootsInteruptDelay = Random.Range(120, 300);
+                //cootsInteruptDelay = Random.Range(10, 15);
+
+                StartCoroutine(CootsInteruptDelay());
+            }
+
+            interuptCounter++;
         }
+
 
     }
 

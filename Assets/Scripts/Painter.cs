@@ -211,14 +211,15 @@ public class Painter : MonoBehaviour
 
         if(paintCounter == 1)
         {
-            subtitles.text = "Look at those happy little strokes.";
-            FindObjectOfType<AudioManager>().Play("BobRoss1_2");
+            subtitles.text = "Now, let's give our cat some tender little eyes.";
+            FindObjectOfType<AudioManager>().Play("BobRoss1_3");
             StartCoroutine(DialogueDisable());
         }
         if (paintCounter == 2)
         {
-            subtitles.text = "Now, let's give our cat some tender little eyes.";
-            FindObjectOfType<AudioManager>().Play("BobRoss1_3");
+            subtitles.text = "Look at those happy little strokes.";
+            FindObjectOfType<AudioManager>().Play("BobRoss1_2");
+
             StartCoroutine(DialogueDisable());
 
         }
@@ -294,7 +295,7 @@ public class Painter : MonoBehaviour
         yield return new WaitForSeconds(2f);
         {
             bobRossAnim.SetTrigger("Talk");
-            subtitles.text = "And there we have it, a happy little kitty.";
+            subtitles.text = "And there we have it, a happy little cat.";
             FindObjectOfType<AudioManager>().Play("BobRoss1_5");
         }
         yield return new WaitForSeconds(1f);

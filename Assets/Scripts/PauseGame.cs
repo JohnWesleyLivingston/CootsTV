@@ -51,14 +51,14 @@ public class PauseGame : MonoBehaviour
 
             if (gamePaused)
             {
-                //Time.timeScale = 0;
+                Time.timeScale = 0;
                 pauseScreen.SetActive(true);
                 FindObjectOfType<AudioManager>().Play("PauseGame");
 
             }
             else
             {
-                //Time.timeScale = 1;
+                Time.timeScale = 1;
                 pauseScreen.SetActive(false);
                 FindObjectOfType<AudioManager>().Play("StartGame");
             }

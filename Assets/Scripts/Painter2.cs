@@ -280,7 +280,7 @@ public class Painter2 : MonoBehaviour
             shiftCamOut = true;
             handVisual.SetActive(false);
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(6f);
         {
             subtitles.text = "";
         }
@@ -295,7 +295,7 @@ public class Painter2 : MonoBehaviour
             bobRossAnim.SetTrigger("Reveal");
             FindObjectOfType<AudioManager>().Play("Meow");
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4.5f);
         {
 
             paintCanvas.SetActive(false);

@@ -17,16 +17,22 @@ public class GameFinished : MonoBehaviour
     public GameObject finishedText;
     public GameObject loadingText;
 
+    public GameObject creditsScreen;
+    public bool inCredits;
 
     void OnEnable()
     {
         VoiceRecognitionManager.OnMeow += Meow;
         VoiceRecognitionManager.OnHiss += Hiss;
+        VoiceRecognitionManager.OnPurr += Credits;
+
     }
     void OnDisable()
     {
         VoiceRecognitionManager.OnMeow -= Meow;
         VoiceRecognitionManager.OnHiss -= Hiss;
+        VoiceRecognitionManager.OnPurr -= Credits;
+
     }
 
     void Start()
@@ -44,13 +50,30 @@ public class GameFinished : MonoBehaviour
 
     void Meow()
     {
-        StartCoroutine(RestartDelay());
+        if (!inCredits)
+        {
+            StartCoroutine(RestartDelay());
+        }
+        else
+        {
+            creditsScreen.SetActive(false);
+            inCredits = false;
+        }
     }
 
     void Hiss()
     {
-        quitGame.Quit();
+        if (!inCredits)
+        {
+            quitGame.Quit();
+        }
 
+    }
+
+    void Credits()
+    {
+        creditsScreen.SetActive(true);
+        inCredits = true;
 
     }
 
