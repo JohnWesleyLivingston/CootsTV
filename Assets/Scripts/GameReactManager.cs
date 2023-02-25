@@ -227,10 +227,31 @@ public class GameReactManager : MonoBehaviour
                 subtitles.text = "You did it! You're a genius!";
                 psychiatristAnim.SetTrigger("Talk");
 
-                yield return new WaitForSeconds(4f);
+                yield return new WaitForSeconds(3.5f);
                 {
-                    gameRunner.GameComplete();
+                    FindObjectOfType<AudioManager>().Play("ReactLine7");
+                    subtitles.text = "Remember to say each word clearly, and not too quickly.";
+                    psychiatristAnim.SetTrigger("Talk");
 
+                    yield return new WaitForSeconds(5f);
+                    {
+                        FindObjectOfType<AudioManager>().Play("ReactLine8");
+                        subtitles.text = "Don't say Meow, Meow, Meow! Say Meow, PAUSE, meow, PAUSE, meow";
+                        psychiatristAnim.SetTrigger("Talk");
+
+                        yield return new WaitForSeconds(6f);
+                        {
+                            FindObjectOfType<AudioManager>().Play("ReactLine9");
+                            subtitles.text = "Good luck! ;)";
+                            psychiatristAnim.SetTrigger("Talk");
+
+                            yield return new WaitForSeconds(3f);
+                            {
+                                gameRunner.GameComplete();
+
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5708029051225723119}
   m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.70710784}
-  m_LocalPosition: {x: 0, y: 0.2599989, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2599989, z: 0.57}
   m_LocalScale: {x: 0.5746241, y: 0.5746242, z: 0.7057209}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -129,8 +129,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 3.144538}
-  m_Center: {x: 0, y: -0.00000011920929, z: 0.572268}
+  m_Size: {x: 2, y: 2, z: 4.144536}
+  m_Center: {x: 0, y: -0.00000011920929, z: 1.072267}
 --- !u!114 &9100458436703208183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a97a06a1f87a5af418e5ccd009f6dabd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 4
 --- !u!1001 &9100458435663259470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -211,6 +212,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 63b7ff734ca05804eb5792f2f5c2b686, type: 2}
+    - target: {fileID: -3270834789232462163, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8855
+      objectReference: {fileID: 0}
+    - target: {fileID: -3270834789232462163, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.4580742
+      objectReference: {fileID: 0}
+    - target: {fileID: -3270834789232462163, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.14558922
+      objectReference: {fileID: 0}
+    - target: {fileID: -3270834789232462163, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5823568
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
       propertyPath: m_Name
       value: MusicNote Blue
@@ -219,6 +236,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d530699c7f36a3a4582a65d7b4b40aaf, type: 2}
+    - target: {fileID: 5898855749840620490, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8855
+      objectReference: {fileID: 0}
+    - target: {fileID: 5898855749840620490, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.4580742
+      objectReference: {fileID: 0}
+    - target: {fileID: 5898855749840620490, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.14558922
+      objectReference: {fileID: 0}
+    - target: {fileID: 5898855749840620490, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5823568
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a5a356a59f845254eb00ee92dedb0ff5, type: 3}

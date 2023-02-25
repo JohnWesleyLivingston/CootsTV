@@ -46,4 +46,6 @@ public class Spawner : MonoBehaviour
 
         Instantiate(objectsToSpawn[r], new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), transform.position.z), transform.rotation);
     }
+
+
 }

@@ -6,6 +6,7 @@ using TMPro;
 public class FlappyCootsManager : MonoBehaviour
 {
     public bool isVertcial;
+    private bool gameStarted;
 
     private GameRunner gameRunner;
     public Rigidbody2D myRigidbody;
@@ -21,6 +22,7 @@ public class FlappyCootsManager : MonoBehaviour
     public GameObject mainCam;
     public Transform camPosEnding;
     public Transform endingBoxPos;
+    public Transform camPos;
 
     public GameObject endingCoots;
     private bool gameEnd;
@@ -28,14 +30,26 @@ public class FlappyCootsManager : MonoBehaviour
 
     public LineRenderer lr;
     public Transform[] points;
+
+    public LineRenderer lr2;
+    public Transform[] points2;
+
     public GameObject balloon;
     public Transform balloonTarget;
     public GameObject flappyCanvas;
-
+    public GameObject balloon2;
+    public Transform balloonTarget2;
+    public GameObject balloon3;
+    public Transform balloonTarget3;
+    public GameObject balloon4;
+    public Transform balloonTarget4;
     public SpriteRenderer cootsSprite;
 
     public Transform[] horizontalPos;
     public bool goRight;
+    public GameObject helmet;
+    public GameObject spaceHelmet;
+    public Transform camPosIntro;
 
     void OnEnable()
     {
@@ -54,6 +68,11 @@ public class FlappyCootsManager : MonoBehaviour
         this.points = points;
     }
 
+    public void SetUpLine2(Transform[] points)
+    {
+        lr2.positionCount = points.Length;
+        this.points2 = points;
+    }
 
     void Start()
     {
@@ -61,6 +80,11 @@ public class FlappyCootsManager : MonoBehaviour
         endingCoots.SetActive(false);
 
         SetUpLine(points);
+        SetUpLine2(points2);
+
+        StartCoroutine(StartSequencer());
+
+
     }
 
     private void Update()
@@ -80,17 +104,49 @@ public class FlappyCootsManager : MonoBehaviour
         balloon.transform.position = Vector3.Lerp(balloon.transform.position, balloonTarget.position, 2f * Time.deltaTime);
 
 
-        if(isVertcial)
+
+        if(isVertcial && gameStarted)
         {
+
+            for (int i = 0; i < points2.Length; i++)
+            {
+                lr2.SetPosition(i, points2[i].position);
+            }
+
+            balloon2.transform.position = Vector3.Lerp(balloon2.transform.position, balloonTarget2.position, 2f * Time.deltaTime);
+            balloon3.transform.position = Vector3.Lerp(balloon3.transform.position, balloonTarget3.position, 2f * Time.deltaTime);
+            balloon4.transform.position = Vector3.Lerp(balloon4.transform.position, balloonTarget4.position, 2f * Time.deltaTime);
 
             if (goRight)
             {
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, horizontalPos[1].transform.position, 3 * Time.deltaTime);
+                // gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, horizontalPos[1].transform.position, 8 * Time.deltaTime);
+                gameObject.transform.position = transform.position + (Vector3.right * 6) * Time.deltaTime;
+
+               // cootsSprite.transform.Rotate(new Vector3(0, 180, 0));
+
             }
             else
             {
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, horizontalPos[0].transform.position, 3 * Time.deltaTime);
+                //  gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, horizontalPos[0].transform.position, 8 * Time.deltaTime);
+                gameObject.transform.position = transform.position + (Vector3.left * 6) * Time.deltaTime;
+
+                //  cootsSprite.transform.Rotate(new Vector3(0, 0, 0));
+
             }
+
+            if (!endingZoom)
+            {
+                camPos.position = new Vector3(mainCam.transform.position.x, transform.position.y, camPos.position.z);
+
+                mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, camPos.position, 1f * Time.deltaTime);
+            }
+
+
+        }
+
+        if (isVertcial && !gameStarted && !gameEnd)
+        {
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, camPosIntro.position, 2f * Time.deltaTime);
 
         }
     }
@@ -99,7 +155,7 @@ public class FlappyCootsManager : MonoBehaviour
 
     void Meow()
     {
-        if (!gameEnd)
+        if (!gameEnd && gameStarted)
         {
             myRigidbody.velocity = Vector2.up * flapStrenght;
         }
@@ -114,7 +170,7 @@ public class FlappyCootsManager : MonoBehaviour
         scoreText.text = playerScore.ToString();
         FindObjectOfType<AudioManager>().Play("RightAnswer");
 
-        if(playerScore == 10)
+        if(playerScore == 8)
         {
             pipesSpawnScript.SpawnEndPipe();
             endingBox = GameObject.FindGameObjectWithTag("Top").transform;
@@ -122,34 +178,69 @@ public class FlappyCootsManager : MonoBehaviour
         }
     }
 
+    private IEnumerator StartSequencer()
+    {
+        if (isVertcial)
+        {
+            FindObjectOfType<AudioManager>().Play("Thrusters");
+
+            yield return new WaitForSeconds(5.5f);
+            {
+                gameStarted = true;
+                myRigidbody.velocity = Vector2.up * flapStrenght * 1.2f;
+                FindObjectOfType<AudioManager>().Play("Meow");
+                FindObjectOfType<AudioManager>().Stop("Thrusters");
+                flappyCanvas.SetActive(true);
+
+            }
+        }
+        else
+        {
+            myRigidbody.velocity = Vector2.up * flapStrenght;
+            FindObjectOfType<AudioManager>().Play("Meow");
+            gameStarted = true;
+            flappyCanvas.SetActive(true);
+        }
+
+    }
 
 
     private IEnumerator EndSequencer()
     {
-
         gameEnd = true;
         endingZoom = true;
         flappyCanvas.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        {
-            endingCoots.transform.parent = endingBox.transform;
-            FindObjectOfType<AudioManager>().Play("Meow");
-            endingCoots.SetActive(true);
-            cootsSprite.enabled = false;
-        }
-        yield return new WaitForSeconds(1.5f);
-        {
-            FindObjectOfType<AudioManager>().Play("Meow");
-        }
 
-        yield return new WaitForSeconds(4f);
+        if (!isVertcial)
         {
 
-            pipesSpawnScript.DestroyAllBoxes();
-            gameRunner.GameComplete();
+            yield return new WaitForSeconds(1f);
+            {
+                endingCoots.transform.parent = endingBox.transform;
+                FindObjectOfType<AudioManager>().Play("Meow");
+                endingCoots.SetActive(true);
+                cootsSprite.enabled = false;
+            }
 
+            yield return new WaitForSeconds(4.5f);
+            {
+                pipesSpawnScript.DestroyAllBoxes();
+                gameRunner.GameComplete();
+            }
         }
-
+        if (isVertcial)
+        {
+            yield return new WaitForSeconds(1f);
+            {
+                FindObjectOfType<AudioManager>().Play("Meow");
+                endingCoots.SetActive(true);
+                cootsSprite.enabled = false;
+            }
+            yield return new WaitForSeconds(4.5f);
+            {
+                gameRunner.GameComplete();
+            }
+        }
     }
 
     void OnTriggerStay2D(Collider2D target)
@@ -163,7 +254,7 @@ public class FlappyCootsManager : MonoBehaviour
             }
             else
             {
-                goRight = false;
+                goRight = true;
             }
         }
         if (target.tag == "VespaRight")
@@ -175,7 +266,7 @@ public class FlappyCootsManager : MonoBehaviour
             }
             else
             {
-                goRight = true;
+                goRight = false;
             }
         }
     }
@@ -202,6 +293,22 @@ public class FlappyCootsManager : MonoBehaviour
 
         }
 
+        if (target.tag == "Space")
+        {
+            spaceHelmet.SetActive(true);
+            helmet.SetActive(false);
+        }
+
     }
 
+    void OnTriggerExit2D(Collider2D target)
+    {
+        if (target.tag == "Space")
+        {
+            spaceHelmet.SetActive(false);
+            helmet.SetActive(true);
+        }
+
+
+    }
 }

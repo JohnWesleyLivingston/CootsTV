@@ -122,9 +122,9 @@ TextureImporter:
       name: Balloon_0
       rect:
         serializedVersion: 2
-        x: 73
+        x: 62
         y: 271
-        width: 123
+        width: 146
         height: 165
       alignment: 9
       pivot: {x: 0.505393, y: 0.17391524}

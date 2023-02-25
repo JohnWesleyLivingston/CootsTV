@@ -67,7 +67,7 @@ public class VoiceRecognitionManager : MonoBehaviour
         actions.Add("Per", Purr);
 
 
-        actions.Add("Pause", Pause);
+        actions.Add("Pause Game", Pause);
        // actions.Add("Paws", Pause);
        // actions.Add("Pos", Pause);
 

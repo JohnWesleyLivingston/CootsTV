@@ -48,7 +48,7 @@ public class GameRunner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            GameComplete();
+            //GameComplete();
         }
     }
 
