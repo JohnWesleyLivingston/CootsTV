@@ -13,6 +13,8 @@ public class PauseGame : MonoBehaviour
 
     public GameObject transitionScreen;
 
+    public float currentVol;
+
     void OnEnable()
     {
         VoiceRecognitionManager.OnMeow += Meow;
@@ -51,16 +53,22 @@ public class PauseGame : MonoBehaviour
 
             if (gamePaused)
             {
-                Time.timeScale = 0;
+                currentVol = AudioListener.volume;
+                AudioListener.volume = 0.1f;
+
                 pauseScreen.SetActive(true);
                 FindObjectOfType<AudioManager>().Play("PauseGame");
+                Time.timeScale = 0;
 
             }
             else
             {
-                Time.timeScale = 1;
+                AudioListener.volume = currentVol;
+
                 pauseScreen.SetActive(false);
                 FindObjectOfType<AudioManager>().Play("StartGame");
+                Time.timeScale = 1;
+
             }
         }
     }
