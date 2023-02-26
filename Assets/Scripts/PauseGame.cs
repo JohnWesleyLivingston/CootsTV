@@ -82,6 +82,9 @@ public class PauseGame : MonoBehaviour
     {
         if (gamePaused)
         {
+            Time.timeScale = 1;
+           // pauseScreen.SetActive(false);
+
             quitGame.Quit();
         }
     }
