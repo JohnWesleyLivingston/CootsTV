@@ -26,6 +26,7 @@ public class GameReactManager : MonoBehaviour
     public GameObject sleepImage;
 
     public Animator rightAnswerEffect;
+    public Animator wrongAnswerEffect;
 
     public AudioSource music;
 
@@ -58,7 +59,13 @@ public class GameReactManager : MonoBehaviour
 
     void Meow()
     {
-        if(waitingForMeow && gameStep == 0)
+        if (gameStep == 1 || gameStep == 2 || gameStep == 3 || gameStep == 4)
+        {
+            FindObjectOfType<AudioManager>().Play("WrongAnswer");
+            wrongAnswerEffect.SetTrigger("RightAnswer");
+        }
+
+        if (waitingForMeow && gameStep == 0)
         {
             FindObjectOfType<AudioManager>().Play("RightAnswer");
             rightAnswerEffect.SetTrigger("RightAnswer");
@@ -87,10 +94,18 @@ public class GameReactManager : MonoBehaviour
 
             StartCoroutine(EndingSequence());
         }
+
+
     }
 
     void Hiss()
     {
+        if (gameStep == 0 || gameStep == 2 || gameStep == 4 || gameStep == 5)
+        {
+            FindObjectOfType<AudioManager>().Play("WrongAnswer");
+            wrongAnswerEffect.SetTrigger("RightAnswer");
+        }
+
         if (waitingForHiss && gameStep == 1)
         {
             FindObjectOfType<AudioManager>().Play("RightAnswer");
@@ -123,10 +138,18 @@ public class GameReactManager : MonoBehaviour
             bathImage.SetActive(false);
             sleepImage.SetActive(true);
         }
+
+
     }
 
     void Purr()
     {
+        if (gameStep == 0 || gameStep == 1 || gameStep == 3 || gameStep == 5)
+        {
+            FindObjectOfType<AudioManager>().Play("WrongAnswer");
+            wrongAnswerEffect.SetTrigger("RightAnswer");
+        }
+
         if (waitingForPurr && gameStep == 2)
         {
             FindObjectOfType<AudioManager>().Play("RightAnswer");
@@ -161,6 +184,8 @@ public class GameReactManager : MonoBehaviour
             bathImage.SetActive(false);
             sleepImage.SetActive(false);
         }
+
+
     }
 
 

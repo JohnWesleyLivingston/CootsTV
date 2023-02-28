@@ -22,6 +22,9 @@ public class VoiceRecognitionManager : MonoBehaviour
     public delegate void PauseAction();
     public static event PauseAction OnPause;
 
+    public delegate void CootsAction();
+    public static event CootsAction OnCoots;
+
     void Start()
     {
         actions.Add("meow", Meow);
@@ -68,8 +71,11 @@ public class VoiceRecognitionManager : MonoBehaviour
 
 
         actions.Add("Pause Game", Pause);
-       // actions.Add("Paws", Pause);
-       // actions.Add("Pos", Pause);
+
+        actions.Add("Coots", Coots);
+
+        // actions.Add("Paws", Pause);
+        // actions.Add("Pos", Pause);
 
 
 
@@ -105,6 +111,11 @@ public class VoiceRecognitionManager : MonoBehaviour
         OnPause();
     }
 
+    void Coots()
+    {
+        OnCoots();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
@@ -122,6 +133,10 @@ public class VoiceRecognitionManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Coots();
         }
     }
 

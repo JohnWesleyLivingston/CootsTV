@@ -242,10 +242,11 @@ public class GuitarHeroManager2 : MonoBehaviour
 
     private IEnumerator StartSequencer()
     {
+        guitarCanvas.SetActive(true);
+
         yield return new WaitForSeconds(9f);
         {
             backTrack.Play();
-            guitarCanvas.SetActive(true);
             cootsSlash1.SetBool("PlayMusic", true);
             cootsSlash2.SetBool("PlayMusic", true);
             print("Music ON");

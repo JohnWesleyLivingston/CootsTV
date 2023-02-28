@@ -41,6 +41,7 @@ public class GameReactManagerHard : MonoBehaviour
 
 
     public Animator rightAnswerEffect;
+    public Animator wrongAnswerEffect;
 
     public AudioSource music;
 
@@ -68,6 +69,12 @@ public class GameReactManagerHard : MonoBehaviour
 
     void Meow()
     {
+        if (gameStep == 1 || gameStep == 3 || gameStep == 4 || gameStep == 5)
+        {
+            FindObjectOfType<AudioManager>().Play("WrongAnswer");
+            wrongAnswerEffect.SetTrigger("RightAnswer");
+        }
+
         if (waitingForMeow && gameStep == 0)
         {
             FindObjectOfType<AudioManager>().Play("RightAnswer");
@@ -112,6 +119,12 @@ public class GameReactManagerHard : MonoBehaviour
 
     void Hiss()
     {
+        if (gameStep == 0 || gameStep == 2 || gameStep == 3 || gameStep == 5)
+        {
+            FindObjectOfType<AudioManager>().Play("WrongAnswer");
+            wrongAnswerEffect.SetTrigger("RightAnswer");
+        }
+
         if (waitingForHiss && gameStep == 1)
         {
             FindObjectOfType<AudioManager>().Play("RightAnswer");
@@ -156,6 +169,12 @@ public class GameReactManagerHard : MonoBehaviour
 
     void Purr()
     {
+        if (gameStep == 0 || gameStep == 1 || gameStep == 2 || gameStep == 4)
+        {
+            FindObjectOfType<AudioManager>().Play("WrongAnswer");
+            wrongAnswerEffect.SetTrigger("RightAnswer");
+        }
+
         if (waitingForPurr && gameStep == 3)
         {
             FindObjectOfType<AudioManager>().Play("RightAnswer");

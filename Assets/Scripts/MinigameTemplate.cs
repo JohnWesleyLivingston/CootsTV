@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class MinigameTemplate : MonoBehaviour
 {
+    [Header("Game Settings")]
     private GameRunner gameRunner;
 
+    [Header("Bools")]
+    public bool gameStart;
     void OnEnable()
     {
         VoiceRecognitionManager.OnMeow += Meow;
@@ -51,6 +54,7 @@ public class MinigameTemplate : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         {
+            gameStart = true;
 
         }
 

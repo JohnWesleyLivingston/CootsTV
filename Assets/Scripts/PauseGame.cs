@@ -21,6 +21,7 @@ public class PauseGame : MonoBehaviour
         VoiceRecognitionManager.OnHiss += Hiss;
         VoiceRecognitionManager.OnPurr += Purr;
         VoiceRecognitionManager.OnPause += Paws;
+        VoiceRecognitionManager.OnCoots += Coots;
 
 
     }
@@ -30,6 +31,7 @@ public class PauseGame : MonoBehaviour
         VoiceRecognitionManager.OnHiss -= Hiss;
         VoiceRecognitionManager.OnPurr -= Purr;
         VoiceRecognitionManager.OnPause -= Paws;
+        VoiceRecognitionManager.OnCoots -= Coots;
 
     }
 
@@ -90,6 +92,11 @@ public class PauseGame : MonoBehaviour
     }
 
     void Purr()
+    {
+
+    }
+
+    void Coots()
     {
 
     }

@@ -6,6 +6,7 @@ using UnityEngine.Rendering.PostProcessing;
 public class CootsScreenManager : MonoBehaviour
 {
     private PauseGame pauseMenu;
+    private GameRunner gameRunner;
 
     public Transform cootsOnTV;
     public Transform cootsInFrontTV;
@@ -15,6 +16,7 @@ public class CootsScreenManager : MonoBehaviour
     public Animator cootsAnim;
     private bool gameStartedToggle = false;
     private bool gameEndedToggle = false;
+    private bool cootsMoveToggle = false;
 
     private int cootsInteruptDelay;
     public Animator cootsInterupt;
@@ -35,20 +37,25 @@ public class CootsScreenManager : MonoBehaviour
         cootsObject.transform.position = cootsOnTV.transform.position;
         raiseDoF = true;
         meowSFX.Play();
+        gameRunner = FindObjectOfType<GameRunner>();
+
     }
 
 
     void Update()
     {
-        if (pauseMenu.gameStarted)
+        if (pauseMenu.gameStarted )
         {
             if (!gameStartedToggle)
             {
-                StartCoroutine(CootsMoveDelay());
-                gameStartedToggle = true;
                 meowSFX.Stop();
                 gameEndedToggle = false;
-
+                gameStartedToggle = true;
+            }
+            if (gameRunner.currentGame == 2 && !cootsMoveToggle)
+            {
+                StartCoroutine(CootsMoveDelay());
+                cootsMoveToggle = true;
             }
         }
         else

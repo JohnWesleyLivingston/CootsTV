@@ -36,10 +36,10 @@ public class GameMainMenu : MonoBehaviour
         pauseGame = FindObjectOfType<PauseGame>();
         quitGame = FindObjectOfType<QuitGame>();
 
-        volumeCounter = 3;
-        AudioListener.volume = 0.67f;
-        volumeIcon.sprite = volumeSprites[2];
-        
+        volumeCounter = 2;
+        AudioListener.volume = 0.34f;
+        volumeIcon.sprite = volumeSprites[1];
+
     }
 
 

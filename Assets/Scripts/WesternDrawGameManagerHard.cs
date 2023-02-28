@@ -68,6 +68,8 @@ public class WesternDrawGameManagerHard : MonoBehaviour
     public GameObject armMilk;
     public GameObject cootsArm;
 
+    private string tempFalseDrawText;
+
     void OnEnable()
     {
         VoiceRecognitionManager.OnHiss += Hiss;
@@ -230,6 +232,8 @@ public class WesternDrawGameManagerHard : MonoBehaviour
 
                 dialogue.text = "PAW!";
                 dialogue.fontSize = 30;
+                wordToSay = 1;
+                tempFalseDrawText = "PAW";
 
                 cinemaOn = false;
 
@@ -303,11 +307,30 @@ public class WesternDrawGameManagerHard : MonoBehaviour
             banditHide.SetActive(true);
 
 
-            FindObjectOfType<AudioManager>().Play("Western2_FalseDraw");
-            dialogue.text = "AAA! Not fair, I didn't say draw!";
+            FindObjectOfType<AudioManager>().Play("Western2_DontShoot");
+            dialogue.text = "Don't shoot! I said " + tempFalseDrawText + " not draw!";
         }
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(1.6f);
+        {
+            if (wordToSay == 1) // FAKE WORD
+            {
+                FindObjectOfType<AudioManager>().Play("Western2_Paw");
+            }
+            if (wordToSay == 2) // FAKE WORD
+            {
+                FindObjectOfType<AudioManager>().Play("Western2_ShootMe");
+            }
+            if (wordToSay == 3) // FAKE WORD
+            {
+                FindObjectOfType<AudioManager>().Play("Western2_Woof");
+            }
+        }
+        yield return new WaitForSeconds(1.2f);
+        {
+            FindObjectOfType<AudioManager>().Play("Western2_NotDraw");
+        }
+        yield return new WaitForSeconds(1.2f);
         {
             mainCam.transform.position = camPos[4].transform.position;
             mainCam.transform.LookAt(focalPoints[0].transform);
@@ -420,16 +443,21 @@ public class WesternDrawGameManagerHard : MonoBehaviour
                 {
                     dialogue.text = "PAW!";
                     FindObjectOfType<AudioManager>().Play("Western2_Paw");
+                    tempFalseDrawText = "PAW";
                 }
                 if (wordToSay == 2) // FAKE WORD
                 {
                     dialogue.text = "SHOOT ME!";
                     FindObjectOfType<AudioManager>().Play("Western2_ShootMe");
+                    tempFalseDrawText = "SHOOT ME";
+
                 }
                 if (wordToSay == 3) // FAKE WORD
                 {
                     dialogue.text = "Woof!";
                     FindObjectOfType<AudioManager>().Play("Western2_Woof");
+                    tempFalseDrawText = "WOOF";
+
                 }
 
                 shootUI.SetActive(true);

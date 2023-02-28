@@ -54,6 +54,11 @@ public class Painter : MonoBehaviour
 
     public Animator bobRossAnim;
 
+    [Header("End Living Room")]
+    public Transform livingRoomPaintingHolder;
+    public GameObject sparkles;
+    public GameObject livingRoomFrame;
+
     void OnEnable()
     {
         VoiceRecognitionManager.OnPurr += Purr;
@@ -321,6 +326,12 @@ public class Painter : MonoBehaviour
         }
         yield return new WaitForSeconds(3f);
         {
+            livingRoomFrame.SetActive(true);
+            artCanvas.transform.parent = livingRoomPaintingHolder.transform;
+            artCanvas.transform.position = livingRoomPaintingHolder.transform.position;
+            artCanvas.transform.rotation = livingRoomPaintingHolder.transform.rotation;
+
+            sparkles.SetActive(false);
 
             paintCanvas.SetActive(false);
 

@@ -20,6 +20,8 @@ public class Painter2 : MonoBehaviour
    // public Transform[] verticalPortrait;
 
     public Transform[] portraitTransforms;
+    public Transform[] faceTransforms;
+
     public int currentPaintMoveTo;
 
 
@@ -56,6 +58,10 @@ public class Painter2 : MonoBehaviour
 
     private bool paintToggle;
 
+    [Header("End Living Room")]
+    public Transform livingRoomPaintingHolder;
+    public GameObject sparkles;
+    public GameObject livingRoomFrame;
     void OnEnable()
     {
         VoiceRecognitionManager.OnPurr += Purr;
@@ -89,7 +95,7 @@ public class Painter2 : MonoBehaviour
             {
                 if (paintCounter >= 2)
                 {
-                    currentPaintMoveTo = Random.Range(0, portraitTransforms.Length);
+                    currentPaintMoveTo = Random.Range(0, faceTransforms.Length);
                     paintToggle = true;
                 }
                 else
@@ -98,12 +104,27 @@ public class Painter2 : MonoBehaviour
                     paintToggle = true;
                 }
             }
-            playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, portraitTransforms[currentPaintMoveTo].transform.position, handSpeed * Time.deltaTime);
 
-            if (playerHand.transform.position == portraitTransforms[currentPaintMoveTo].transform.position)
+            if (paintCounter >= 2)
             {
-                paintToggle = false;
+                playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, faceTransforms[currentPaintMoveTo].transform.position, handSpeed * Time.deltaTime);
+
+                if (playerHand.transform.position == faceTransforms[currentPaintMoveTo].transform.position)
+                {
+                    paintToggle = false;
+                }
             }
+            else
+            {
+                playerHand.transform.position = Vector3.MoveTowards(playerHand.transform.position, portraitTransforms[currentPaintMoveTo].transform.position, handSpeed * Time.deltaTime);
+
+                if (playerHand.transform.position == portraitTransforms[currentPaintMoveTo].transform.position)
+                {
+                    paintToggle = false;
+                }
+            }
+
+
         }
 
         else
@@ -297,6 +318,12 @@ public class Painter2 : MonoBehaviour
         }
         yield return new WaitForSeconds(4.5f);
         {
+            livingRoomFrame.SetActive(true);
+            artCanvas.transform.parent = livingRoomPaintingHolder.transform;
+            artCanvas.transform.position = livingRoomPaintingHolder.transform.position;
+            artCanvas.transform.rotation = livingRoomPaintingHolder.transform.rotation;
+
+            sparkles.SetActive(false);
 
             paintCanvas.SetActive(false);
 
